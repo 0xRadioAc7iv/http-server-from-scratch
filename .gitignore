@@ -3,3 +3,9 @@ node_modules
 
 # Build files
 dist
+
+# Test coverage
+coverage
+
+# HTML Files to be served
+html
