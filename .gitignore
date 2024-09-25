@@ -7,5 +7,5 @@ dist
 # Test coverage
 coverage
 
-# HTML Files to be served
-html
+# REST files for testing
+tests/rest
