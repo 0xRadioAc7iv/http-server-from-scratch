@@ -13,7 +13,15 @@ function handleNewConnection(socket: net.Socket) {
   socket.on("data", async (data: Buffer) => {
     const request = new TextDecoder().decode(data);
     const splitRequest = request.split(" ");
+
+    const requestType = splitRequest[0];
     const htmlFile = splitRequest[1].slice(1);
+
+    if (requestType !== "GET") {
+      socket.write("Error: Invalid Request Type!");
+      socket.end();
+      return;
+    }
 
     try {
       const file = await fs.readFile(`./html/${htmlFile}`);
@@ -22,7 +30,7 @@ function handleNewConnection(socket: net.Socket) {
       socket.write(dataToSend);
       /* eslint-disable-next-line @typescript-eslint/no-unused-vars */
     } catch (err) {
-      socket.write("Requested resource does not exist!");
+      socket.write("Error: Requested resource does not exist!");
     }
 
     socket.end();
