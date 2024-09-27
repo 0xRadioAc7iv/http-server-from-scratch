@@ -26,7 +26,6 @@ function handleNewConnection(socket: net.Socket) {
     try {
       const file = await fs.readFile(`./html/${htmlFile}`);
       const dataToSend = file.toString();
-      console.log(dataToSend);
       socket.write(dataToSend);
       /* eslint-disable-next-line @typescript-eslint/no-unused-vars */
     } catch (err) {

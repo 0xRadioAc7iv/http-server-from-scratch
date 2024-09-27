@@ -4,12 +4,12 @@ const { startServer, stopServer } = require("../../dist/index.js");
 describe("Testing HTTP/0.9", () => {
   beforeAll((done) => {
     startServer();
-    setTimeout(done, 100); // Giving the server time to start up
+    setTimeout(done, 500); // Giving the server time to start up
   });
 
   afterAll((done) => {
     stopServer();
-    setTimeout(done, 100); // Giving the server time to stop
+    setTimeout(done, 500); // Giving the server time to stop
   });
 
   test("The requested webpage was found and returned", (done) => {
@@ -45,7 +45,19 @@ describe("Testing HTTP/0.9", () => {
     });
 
     client.on("data", (data) => {
-      expect(data.toString()).toBe("Requested resource does not exist!");
+      expect(data.toString()).toBe("Error: Requested resource does not exist!");
+      client.end();
+      done();
+    });
+  });
+
+  test("Invalid Request type was sent and an error was returned", (done) => {
+    const client = createConnection({ port: 3000 }, () => {
+      client.write("POST /index.html");
+    });
+
+    client.on("data", (data) => {
+      expect(data.toString()).toBe("Error: Invalid Request Type!");
       client.end();
       done();
     });
