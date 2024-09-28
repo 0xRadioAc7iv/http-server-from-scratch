@@ -57,7 +57,19 @@ describe("Testing HTTP/0.9", () => {
     });
 
     client.on("data", (data) => {
-      expect(data.toString()).toBe("Error: Invalid Request Type!");
+      expect(data.toString()).toBe("Error: Only GET Requests are supported!");
+      client.end();
+      done();
+    });
+  });
+
+  test("Incomplete Request was sent and an error was returned", (done) => {
+    const client = createConnection({ port: 3000 }, () => {
+      client.write("GET");
+    });
+
+    client.on("data", (data) => {
+      expect(data.toString()).toBe("Error: Incomplete Request");
       client.end();
       done();
     });

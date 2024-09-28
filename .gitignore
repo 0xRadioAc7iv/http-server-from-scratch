@@ -7,5 +7,6 @@ dist
 # Test coverage
 coverage
 
-# REST files for testing
+# files for testing
 tests/rest
+tests/http_client
